@@ -1,21 +1,19 @@
 package com.codeborne.selenide;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.stream.IntStream;
-
-import com.codeborne.selenide.extension.MockWebDriverExtension;
 import com.codeborne.selenide.impl.SelenideElementIterator;
 import com.codeborne.selenide.impl.SelenideElementListIterator;
 import com.codeborne.selenide.impl.WebElementsCollection;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.stream.IntStream;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Configuration.browser;
@@ -29,7 +27,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockWebDriverExtension.class)
 class ElementsCollectionTest implements WithAssertions {
   private WebElementsCollection source = mock(WebElementsCollection.class);
   private WebElement element1 = element("h1");
@@ -39,6 +36,7 @@ class ElementsCollectionTest implements WithAssertions {
   @BeforeEach
   final void mockWebDriver() {
     browser = null;
+    when(source.context()).thenReturn(new Context(new Browser("opera", false), null, null));
   }
 
   @Test
@@ -191,7 +189,7 @@ class ElementsCollectionTest implements WithAssertions {
 
   @Test
   void testElementsToStringOnNullCollection() {
-    assertThat(ElementsCollection.elementsToString(null))
+    assertThat(ElementsCollection.elementsToString(null, null))
       .isEqualTo("[not loaded yet...]");
   }
 

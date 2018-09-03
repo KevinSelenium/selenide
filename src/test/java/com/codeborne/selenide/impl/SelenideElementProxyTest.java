@@ -1,8 +1,5 @@
 package com.codeborne.selenide.impl;
 
-import java.io.FileNotFoundException;
-import java.util.logging.Logger;
-
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Screenshots;
 import com.codeborne.selenide.SelenideElement;
@@ -24,6 +21,9 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.io.FileNotFoundException;
+import java.util.logging.Logger;
 
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.enabled;
@@ -64,7 +64,7 @@ class SelenideElementProxyTest implements WithAssertions {
       .thenReturn(ImmutableMap.of("id", "id1", "class", "class1"));
 
     Screenshots.screenshots = mock(ScreenShotLaboratory.class);
-    when(Screenshots.screenshots.takeScreenShot()).thenReturn("");
+    when(Screenshots.screenshots.takeScreenShot(any())).thenReturn("");
 
     when(element.getTagName()).thenReturn("h1");
     when(element.getText()).thenReturn("Hello world");
